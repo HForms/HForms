@@ -10,3 +10,6 @@ def index():
 def Add():    
 	question = request.form.get("question")
 	return question
+
+if __name__ == "__main__":
+	app.run(debug=True)
