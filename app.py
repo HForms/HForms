@@ -1,11 +1,10 @@
 from flask import Flask, render_template, redirect, url_for, request
 
 app = Flask(__name__)
-fun_url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 
 @app.route('/')
-def home():
-	return "Hello world! Click <a href={}>here</a> for some fun XD".format(fun_url)
+def index():
+  return render_template("make.html")
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -16,6 +15,11 @@ def login():
 		else:
 			return redirect(url_for('home'))
 	return render_template('login.html', error = error)
+
+@app.route("/make", methods = ["POST"])
+def Add():    
+	question = request.form.get("question")
+	return question
 
 if __name__ == '__main__':
 	app.run(host= '10.0.0.40', port=9000, debug=True)
