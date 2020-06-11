@@ -1,43 +1,44 @@
-from flask import Flask, request, render_template, redirect, url_for, session, flash
+from flask import Flask, request, render_template, redirect, url_for, flash
+from forms import RegistrationForm, LoginForm
 
 app = Flask(__name__)
 
-app.secret_key = "secret"
+app.config['SECRET_KEY'] = 'cfef3ad9918b30369b7999ddd28a55d6'
 
 @app.route('/')
 def welcome():
 	return render_template('welcome.html')
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route("/register", methods = ['GET', 'POST'])
+def register():
+	form = RegistrationForm()
+	if (form.validate_on_submit()):
+		flash('Account created for {}!'.format(form.username.data), 'success')
+		return redirect(url_for('welcome'))
+	return render_template('register.html', form = form, title = 'Register')
+
+@app.route("/login", methods = ['GET', 'POST'])
 def login():
-	error = None
-	if(request.method == 'POST'):
-		if(request.form['username'] != 'admin' or request.form['password'] != 'admin'):
-			error = 'Login failed, invalid credentials'
-		else:
-			session['logged_in'] = True
-			flash('You were just logged in!')
+	form = LoginForm()
+	if (form.validate_on_submit()):
+		if (form.email.data == 'admin@blog.com' and form.password.data == 'admin'):
+			flash('You have been logged in!', 'success')
 			return redirect(url_for('home'))
-	return render_template('login.html', error = error)
-	# TODO : add unique users
+		else:
+			flash('Login Unsuccessful. Check username and password', 'danger')
+	return render_template('login.html', form = form, title = 'Login')
 
-@app.route('/home')
+@app.route("/home")
 def home():
-	try:
-		return render_template('home.html', status = session['logged_in'])
-	except:
-		flash('You need to login first!')
-		return redirect(url_for('login'))
+	return render_template('home.html', title = 'Home')
 
-@app.route('/logout')
-def logout():
-	session.pop('logged_in', None)
-	flash('You are logged out!')
-	return redirect(url_for('welcome'))
+@app.route("/about")
+def about():
+	return render_template('about.html')
 
-@app.route('/make-forms')
-def index():
-	return render_template("make.html")
+@app.route('/makeforms')
+def makeforms():
+	return render_template("make.html", title = "Create a form")
 
 @app.route("/make", methods = ["POST"])
 def Add():
