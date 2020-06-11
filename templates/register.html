@@ -1,5 +1,5 @@
-<!--
-	Author: Srikar
+<!-- 
+	Author : Srikar
 -->
 
 {% extends "layout.html" %}
@@ -8,7 +8,23 @@
 		<form method="POST" action="">
 			{{ form.hidden_tag() }}
 			<fieldset class="form-group">
-				<legend class="border-bottom mb-4">Login</legend>
+				<legend class="border-bottom mb-4">Join Today</legend>
+				<div class="form-group">
+
+					{{ form.username.label(class="form-control-label") }}
+
+					{% if form.username.errors %}
+						{{ form.username(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.username.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.username(class="form-control form-control-lg")}}
+					{% endif %}
+
+				</div>
 				<div class="form-group">
 
 					{{ form.email.label(class="form-control-label") }}
@@ -40,23 +56,33 @@
 						{{ form.password(class="form-control form-control-lg")}}
 					{% endif %}
 				</div>
-				<div class="form-check">
-					{{ form.remember(class="form-check-input") }}
-					{{ form.remember.label(class="form-check-label") }}
+				<div class="form-group">
+
+					{{ form.cnf_password.label(class="form-control-label") }}
+
+					{% if form.cnf_password.errors %}
+						{{ form.cnf_password(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.cnf_password.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.cnf_password(class="form-control form-control-lg")}}
+					{% endif %}
+
 				</div>
 			</fieldset>
+
 			<div class="form-group">
 				{{ form.submit(class="btn btn-outline-info") }}
 			</div>
-			<small class="text-muted ml-2">
-				<a href="#">Forgot Password?</a>
-			</small>
+			
 		</form>
 	</div>
-
 	<div class="border-top pt-3">
 		<small class="text-muted">
-			Need an account? <a class="ml-2" href="{{ url_for('register') }}">Sign up now!</a>
+			Already have an account? <a class="ml-2" href="{{ url_for('login') }}">Login</a>
 		</small>
 	</div>
 {% endblock content%}
