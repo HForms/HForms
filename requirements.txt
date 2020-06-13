@@ -1,3 +1,6 @@
 flask
 flask_wtf
 wtforms[email]
+flask-sqlalchemy
+flask-bcrypt
+flask-login
