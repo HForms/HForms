@@ -32,13 +32,20 @@
 					</button>
 					<div class="collapse navbar-collapse" id="navbarToggle">
 						<div class="navbar-nav mr-auto">
-							<a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
+							{% if current_user.is_authenticated %}
+								<a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
+							{% endif %}
 							<a class="nav-item nav-link" href="{{ url_for('about') }}">About</a>
 						</div>
 						<!-- Navbar Right Side -->
 						<div class="navbar-nav">
-							<a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
-							<a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
+							{% if current_user.is_authenticated %}
+								<a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
+								<a class="nav-item nav-link" href="{{ url_for('account') }}">Account</a>
+							{% else %}
+								<a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
+								<a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
+							{% endif %}
 						</div>
 					</div>
 				</div>
