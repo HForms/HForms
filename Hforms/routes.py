@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from database import Create
 
 app=Flask(__name__)
 
@@ -24,6 +25,7 @@ def Add():
 		data_type = request.form.get("data_type"+str(i))
 		is_required = request.form.get("is_req"+str(i))
 		i += 1
+	Create(title,questions,is_req,dt)
 	return "Thank You!"
 
 if __name__ == "__main__":
