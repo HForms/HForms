@@ -62,7 +62,6 @@ document.addEventListener('DOMContentLoaded',() => {
             var remove = document.getElementById('questions'+question_id[6].toString()+question_id[7].toString()+question_id[8].toString());
         }
         remove.remove(remove);
-        console.log(i)
         if(parseInt(question_id[6]) < i-1){
             var k=1;
             for(let j=parseInt(question_id[6]+question_id[7]+question_id[8]); j < i-1; j++){
