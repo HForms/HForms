@@ -20,3 +20,6 @@ login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
 from Hforms import routes
+
+from Hforms.dbModels import User
+db.create_all()
