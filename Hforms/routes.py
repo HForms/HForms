@@ -19,7 +19,7 @@ def register():
 	form = RegistrationForm()
 	if form.validate_on_submit():
 		hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-		user = User(username = form.username.data, email = form.email.data, password = hashed_password)
+		user = User(username = form.username.data, password = hashed_password)
 		db.session.add(user)
 		db.session.commit()
 		flash('Account created for {}! You shall now be able to login'.format(form.username.data), 'success')
@@ -32,13 +32,13 @@ def login():
 		return redirect(url_for('home'))
 	form = LoginForm()
 	if form.validate_on_submit():
-		user = User.query.filter_by(email = form.email.data).first()
+		user = User.query.filter_by(username = form.username.data).first()
 		if user and bcrypt.check_password_hash(user.password, form.password.data):
 			login_user(user, remember = form.remember.data)
 			next_page  = request.args.get('next')
 			return redirect(next_page) if next_page else redirect(url_for('home'))
 		else:
-			flash('Login Unsuccessful. Check email and password', 'danger')
+			flash('Login Unsuccessful. Check username and password', 'danger')
 	return render_template('login.html', form = form, title = 'Login')
 
 @app.route("/logout")
