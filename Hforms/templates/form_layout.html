@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{ title }}</title>
+</head>
+<script src="{{ url_for('static',filename='answers.js') }}"></script>
+<body>
+	<form action = " {{ url_for('Ans') }} " method = "POST">
+		<ul id = 'answers'>
+		</ul>
+		<input type = "hidden" name = url value = "{{ url }}">
+		<input type = "submit" id = 'submit' Value = 'Submit'>
+	</form>
+</body>
+<script>
+	create_fields({{ questions | tojson }}, {{ data_type | tojson }});
+	check_fields({{ is_req | tojson }});
+</script>
+</html>
