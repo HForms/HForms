@@ -1,3 +1,7 @@
+branches:
+  only:
+  - test
+
 language: python
 
 python:
