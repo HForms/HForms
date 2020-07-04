@@ -80,3 +80,19 @@ def Answers(title,username,questions,answers):
 	except psycopg2.errors.InvalidTextRepresentation:
 		return 0
 	return 1
+
+def Table(username):
+	conn = psycopg2.connect(database = '{}'.format(username), user = '_username_', password = '_password_', host = '127.0.0.1', port = '5432')		#replace _string_ with actual username/password
+	cur = conn.cursor()
+	cur.execute("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type = 'BASE TABLE'")
+	tables = cur.fetchall()
+	conn.close()
+	return tables
+
+def File(title,username):
+	conn = psycopg2.connect(database = '{}'.format(username), user = '_username_', password = '_password_', host = '127.0.0.1', port = '5432')		#replace _string_ with actual username/password
+	cur = conn.cursor()
+	exe = """COPY (SELECT * FROM "{}") TO STDOUT WITH CSV DELIMITER ';'""".format(title)
+	with open("Hforms/{}.csv".format(title), "w") as file:
+		cur.copy_expert(exe,file)
+	conn.close()

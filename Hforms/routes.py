@@ -1,4 +1,4 @@
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, url_for, flash, redirect, request, send_file
 from Hforms import app, db, bcrypt
 from Hforms.forms import RegistrationForm, LoginForm
 from Hforms.dbModels import User
@@ -115,3 +115,18 @@ def Ans():
 		return "Thanks"
 	else:
 		return "Please enter correct data in the form"
+
+@app.route("/download", methods = ['GET','POST'])
+@login_required
+def Tables():
+	user = User.query.filter_by(username = current_user.username).first()
+	table = Table(user.username)
+	return render_template('download.html', titles = table)
+
+@app.route("/csv", methods = ['POST'])
+@login_required
+def download():
+	table = request.form.get("option")
+	user = User.query.filter_by(username = current_user.username).first()
+	File(table, user.username)
+	return send_file('{}.csv'.format(table), mimetype='text/csv', attachment_filename='{}.csv'.format(table), as_attachment=True)
