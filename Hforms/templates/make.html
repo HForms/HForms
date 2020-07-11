@@ -6,10 +6,23 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Create a form</title>
 </head>
+<script src="{{ url_for('static',filename='Dynamic.js') }}"></script>
 <body>
-    <form action = "{{ url_for('Add') }}" method = "post">
-        <input type="text" name="question" placeholder="Enter the question">
-        <button>Submit</button>
+    <form action = "{{ url_for('Add') }}" method = "post" id='form'>
+        <input name = 'title' id = 'title' placeholder = "Title of form">
+        <ul id='questions'>
+            <li id = 'questions0'>
+                <input type = "text" name = "question" placeholder = "Enter the question" id = "question">
+                <input type = "checkbox" name = "is_req" value="True">Is Required
+                <select name = "data_type" id = "data_type0">
+                    <option value = "" disabled selected>Select Answer type</option>
+                    <option value = "Text">Text</option>
+                    <option value = "Number">Number</option>
+                </select>
+            </li>
+        </ul>
+        <button id="add">Add question</button>
+        <input type="submit" id = "submit" value="Submit">
     </form>
 </body>
 </html>
