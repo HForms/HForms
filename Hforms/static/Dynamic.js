@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded',() => {
         question.name = 'question'+i.toString();
         question.id = 'question'+i.toString();
         question.placeholder = 'Enter the question';
+        question.className = 'form-control form-control-lg'
 
         remove.type = 'button'
         remove.value = 'Remove'
@@ -33,7 +34,7 @@ document.addEventListener('DOMContentLoaded',() => {
 
         label.id = 'label'+i.toString();
         label.htmlFor = 'id'+i.toString();
-        label.appendChild(document.createTextNode('Is Required '));
+        label.appendChild(document.createTextNode('Required '));
 
         select.name = 'data_type'+i.toString();
         select.id = 'data_type'+i.toString();

@@ -1,0 +1,201 @@
+@import url('https://rsms.me/inter/inter.css');
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	font-family: 'Inter', sans-serif;
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	min-height: 100%;
+	background-color: #d9d9d9;
+	display: flex;
+	flex-direction: column;
+}
+
+nav {
+	width: 100%;
+	background-color: white;
+	display: flex;
+	justify-content: space-between;
+	position: sticky;
+	top: 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+.logo {
+	font-size: 30px;
+	font-weight: 500;
+	padding: 10px;
+	margin-left: 5%;
+}
+
+.navbar-links {
+	margin-right: 10%;
+}
+
+.navbar-links ul {
+	margin: 0;
+	padding: 0;
+	display: flex;
+}
+
+.navbar-links li {
+	list-style: none;
+}
+
+.navbar-links li a{
+	text-decoration: none;
+	padding: 1rem;
+	display: block;
+	font-size: 16px;
+	color: black;
+}
+
+.navbar-links a:hover {
+	color: blue;
+}
+
+.toggle-button {
+	position: absolute;
+	top: 1rem;
+	right : 1rem;
+	display: none;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 30px;
+	height: 21px;
+}
+
+.toggle-button .bar {
+	height: 3px;
+	width: 100%;
+	background-color: black;
+	border-radius: 10px;
+}
+
+h1 {
+	color: blue;
+}
+
+.intro {
+	background-color: #23b2c2;
+}
+
+.intro h1 {
+	color: black;
+}
+
+.content {
+	margin-left: 5%;
+	margin-right: 5%;
+	padding: 10px;
+}
+
+.content p{
+	padding: 10px;
+	text-align: justify;
+}
+
+footer {
+	color: white;
+	background-color: black;
+	margin-top: auto;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+
+footer p {
+	padding: 5px;
+	margin: 0;
+	font-size: large;
+	text-align: center;
+	margin-right: 20%;
+}
+
+footer ul {
+	margin: 0;
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+}
+
+footer .heading {
+	font-weight: 700;
+	margin-bottom: 10px;
+}
+
+footer ul li {
+	list-style: none;
+	padding: 5px;
+}
+
+footer a {
+	color: white;
+}
+
+footer a:hover {
+	color: blue;
+}
+
+/* For navbar*/
+
+@media (max-width: 650px) {
+	.toggle-button {
+		display: flex;
+	}
+
+	.navbar-links {
+		display: none;
+		width: 100%;
+	}
+
+	nav {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	
+	.navbar-links ul {
+		width: 100%;
+		position: absolute;
+		flex-direction: column;
+		background-color: white;
+		z-index: 1;
+	}
+
+	.navbar-links li {
+		text-align: center;
+	}
+
+	.navbar-links li a {
+		padding: .5rem 1rem;
+	}
+
+	.navbar-links.active {
+		display: flex;
+	}
+
+	.content {
+		margin-left: 2%;
+		margin-right: 2%;
+	}
+
+	footer {
+		flex-direction: column;
+		align-items: baseline;
+	}
+}

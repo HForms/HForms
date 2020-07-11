@@ -1,28 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Create a form</title>
-</head>
-<script src="{{ url_for('static',filename='Dynamic.js') }}"></script>
-<body>
-    <form action = "{{ url_for('Add') }}" method = "post" id='form'>
-        <input name = 'title' id = 'title' placeholder = "Title of form">
-        <ul id='questions'>
-            <li id = 'questions0'>
-                <input type = "text" name = "question" placeholder = "Enter the question" id = "question">
-                <input type = "checkbox" name = "is_req" value="True">Is Required
-                <select name = "data_type" id = "data_type0">
-                    <option value = "" disabled selected>Select Answer type</option>
-                    <option value = "Text">Text</option>
-                    <option value = "Number">Number</option>
-                </select>
-            </li>
-        </ul>
-        <button id="add">Add question</button>
-        <input type="submit" id = "submit" value="Submit">
-    </form>
-</body>
-</html>
+{% extends "input_layout.html" %}
+{% block content %}
+	<script src="{{ url_for('static',filename='Dynamic.js') }}"></script>
+	
+	<div class="content-section">
+		<form action = "{{ url_for('Add') }}" method = "post" id='form'>
+
+			<fieldset class="form-group">
+				<legend class="border-bottom mb-4"><input name = 'title' id = 'title' placeholder = "Title of form"></legend>
+
+				<div class="form-group">
+					<ul id='questions'>
+						<li id = 'questions0'>
+							<input class = "form-control form-control-lg" type = "text" name = "question" placeholder = "Enter the question" id = "question">
+							<input type = "checkbox" name = "is_req" value="True">
+							<label for="is_req">Required</label>
+							<select name = "data_type" style="margin-left: 30px;" id = "data_type0">
+								<option value = "" disabled selected>Answer type</option>
+								<option value = "Text">Text</option>
+								<option value = "Number">Number</option>
+							</select>
+						</li>
+					</ul>
+				</div>
+
+				<div class="form-group">
+					<button id="add" class="btn btn-outline-info">Add question</button>
+					<input type="submit" class="btn btn-primary" id = "submit" value="Submit">
+				</div>
+			</fieldset>
+
+		</form>
+	</div>
+{% endblock content%}

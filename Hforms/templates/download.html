@@ -1,20 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Your forms</title>
-</head>
-<script src="{{ url_for('static',filename='download.js') }}"></script>
-<body>
+{% extends "layout.html" %}
+{% block content %}
+	<script src="{{ url_for('static',filename='download.js') }}"></script>
 	<form action = " {{ url_for('download') }} " method = "POST">
 		<select name = "option" id = "options">
 			<option value = "" disabled selected>Select the form to download</option>
 		</select>
 		<input type="submit" id = "submit" value="Submit">
 	</form>
-</body>
-<script>
-	add_options({{ titles | tojson }})
-</script>
-</html>
+	<script>add_options({{ titles | tojson }})</script>
+{% endblock content%}

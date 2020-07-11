@@ -17,6 +17,7 @@ function create_fields(questions,data_type){
 
 		answer.name = 'answer'+i.toString();
 		answer.id = 'answer'+i.toString();
+		answer.className = 'form-control form-control-lg'
 
 		ul.appendChild(list);
 		list.appendChild(ques);
