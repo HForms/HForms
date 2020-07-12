@@ -3,7 +3,7 @@ function create_fields(questions,data_type){
 		let ul = document.querySelector('#answers')
 		let list = document.createElement('li');
 		let ques = document.createElement('div');
-		if(data_type[i] == "text"){
+		if(data_type[i] == "TEXT"){
 			var answer = document.createElement('textarea');
 			answer.placeholder = "Only characters allowed";
 		}
@@ -26,7 +26,7 @@ function create_fields(questions,data_type){
 function check_fields(is_req){
 	document.querySelector('#submit').onclick = (eve) => {	
 		for (let i = 1; i < is_req.length; i++) {
-			if(is_req[i] == "NO"){
+			if(is_req[i] == 1){
 				if(!document.getElementById('answer'+i.toString()).value){
 					alert('Answer to question '+i.toString()+' is compulsory');
 					eve.preventDefault();
