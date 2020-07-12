@@ -1,7 +1,3 @@
-"""
-	Author: Srikar
-"""
-
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
@@ -18,6 +14,11 @@ class RegistrationForm(FlaskForm):
 		user = User.query.filter_by(username = username.data).first()
 		if user:
 			raise ValidationError('Sorry! Thats username is already taken. Try another one.')
+
+	def validate_password(self, password):
+		password_length = len(password.data)
+		if(password_length < 8 or password_length > 32):
+			raise ValidationError("Password length must be between 8 and 32 characters")
 
 class LoginForm(FlaskForm):
 	username = StringField('Username', validators = [DataRequired()])

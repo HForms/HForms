@@ -10,22 +10,24 @@ document.addEventListener('DOMContentLoaded',() => {
         let label = document.createElement('label');
 
         let options =new Array('Text', 'Number');
-        let option = '<option value = "" disabled selected>Select Answer type</option>';
+        let option = '<option value = "" disabled selected>Answer type</option>';
         for(var j = 0; j < options.length ; j++)
             option += '<option value = ' + options[j] + '>' + options[j] + '</option>';
 
         list.id = 'questions'+i.toString();
         
-        question.type = 'text'
+        question.type = 'text';
         question.name = 'question'+i.toString();
         question.id = 'question'+i.toString();
         question.placeholder = 'Enter the question';
-        question.className = 'form-control form-control-lg'
+        question.className = 'form-control form-control-lg';
+        question.style = 'margin-bottom: 7px;';
 
-        remove.type = 'button'
-        remove.value = 'Remove'
+        remove.type = 'button';
+        remove.value = 'Remove';
         remove.id = 'remove'+i.toString();
         remove.onclick = function() { removequestion(this.id); };
+        remove.style = 'margin-left: 20px;';
 
         checkbx.type = 'checkbox';
         checkbx.name = 'is_req'+i.toString();
@@ -35,10 +37,12 @@ document.addEventListener('DOMContentLoaded',() => {
         label.id = 'label'+i.toString();
         label.htmlFor = 'id'+i.toString();
         label.appendChild(document.createTextNode('Required '));
+        label.style = 'margin-left: 5px'
 
         select.name = 'data_type'+i.toString();
         select.id = 'data_type'+i.toString();
         select.innerHTML = option;
+        select.style = 'margin-left: 30px;';
 
         ul.appendChild(list);
         list.appendChild(question);
@@ -63,8 +67,8 @@ document.addEventListener('DOMContentLoaded',() => {
             var remove = document.getElementById('questions'+question_id[6].toString()+question_id[7].toString()+question_id[8].toString());
         }
         remove.remove(remove);
+        var k=1;
         if(parseInt(question_id[6]) < i-1){
-            var k=1;
             for(let j=parseInt(question_id[6]+question_id[7]+question_id[8]); j < i-1; j++){
                 let renameli = document.getElementById('questions'+(parseInt(question_id[6]+question_id[7]+question_id[8])+k).toString());
                 let renamequ = document.getElementById('question'+(parseInt(question_id[6]+question_id[7]+question_id[8])+k).toString());
@@ -92,6 +96,7 @@ document.addEventListener('DOMContentLoaded',() => {
                 k++;
             }
         }
+        console.log(k);
         i = (parseInt(question_id[6]+question_id[7]+question_id[8])+k-1);
         return false;
 }
@@ -114,7 +119,7 @@ document.addEventListener('DOMContentLoaded',() => {
             eve.preventDefault();
             }
         }
-        for(let j = 0; j < i; j++)
+        for(let j = 0; j <= i; j++)
         {
             if(document.getElementById('data_type'+j.toString()).value === ''){
                 alert("Please select answer type for question "+(j+1).toString());

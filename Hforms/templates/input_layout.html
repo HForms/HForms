@@ -32,11 +32,17 @@
 
 			<div class="navbar-links">
 				<ul>
-					<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">FAQs</a></li>
-					<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Donate</a></li>
-					<li><a href="{{ url_for('about') }}">About</a></li>
-					<li><a href="{{ url_for('register') }}">Sign Up</a></li>
-					<li><a href="{{ url_for('login') }}">Login</a></li>
+					{% if current_user.is_authenticated %}
+						<li><a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('account') }}">Account</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+					{% else %}
+						<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">FAQs</a></li>
+						<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Donate</a></li>
+						<li><a href="{{ url_for('about') }}">About</a></li>
+						<li><a href="{{ url_for('register') }}">Sign Up</a></li>
+						<li><a href="{{ url_for('login') }}">Login</a></li>
+					{% endif %}
 				</ul>
 			</div>
 
@@ -64,9 +70,9 @@
 			</p>
 
 			<ul>
-				<li class="heading">Company</li>
+				<li class="heading">Organisation</li>
 				<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" title="Click here to donate :)">Donate</a></li>
-				<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Blog</a></li>
+				<li><a href="#">Blog</a></li>
 				<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Terms & Privacy Policy</a></li>
 			</ul>
 

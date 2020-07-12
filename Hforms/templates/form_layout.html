@@ -2,11 +2,22 @@
 {% block content %}
 	<script src="{{ url_for('static',filename='answers.js') }}"></script>
 	<form action = " {{ url_for('Ans') }} " method = "POST">
-		<ul id = 'answers'>
-		</ul>
-		<input type = "hidden" name = url value = "{{ url }}">
-		<input type = "submit" id = 'submit' Value = 'Submit'>
+
+		<fieldset class="form-group">
+			<legend class="border-bottom mb-4 answer_title">{{ form_name }}</legend>
+			<div class="form-group">
+				<ul id = 'answers'></ul>
+			</div>
+		</fieldset>
+
+		<input type = "hidden" name = 'url' value = "{{ url }}">
+		
+		<div class="form-group">
+			<input type = "submit" id = 'submit' Value = 'Submit' class="btn btn-primary">
+		</div>
+
 	</form>
+	
 	<script>
 		create_fields({{ questions | tojson }}, {{ data_type | tojson }});
 		check_fields({{ is_req | tojson }});

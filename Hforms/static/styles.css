@@ -107,6 +107,7 @@ h1 {
 .content p{
 	padding: 10px;
 	text-align: justify;
+	font-weight: bolder;
 }
 
 footer {
@@ -150,6 +151,33 @@ footer a {
 
 footer a:hover {
 	color: blue;
+}
+
+.title_form {
+	color:black;
+}
+
+answers {
+	margin: 0;
+	padding: 0;
+	display: flex;
+}
+
+.answer_li {
+	list-style: none;
+	border: 1px solid black;
+	margin-bottom: 20px;
+	background-color: white;
+	padding: 10px;
+}
+
+.answer_text_input {
+	resize: none;
+	height: 100px;
+}
+
+.answer_title {
+	font-size: xx-large;
 }
 
 /* For navbar*/

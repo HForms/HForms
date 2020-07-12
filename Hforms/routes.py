@@ -8,7 +8,9 @@ from Hforms.urls import make_url, get_url
 
 @app.route('/')
 def welcome():
-	return render_template('welcome.html')
+	if current_user.is_authenticated:
+		return redirect(url_for('home'))
+	return render_template('welcome.html', title = 'Welcome')
 
 @app.route("/register", methods = ['GET', 'POST'])
 def register():
@@ -42,11 +44,11 @@ def login():
 @app.route("/logout")
 def logout():
 	logout_user()
-	return redirect(url_for('welcome'))
+	return redirect(url_for('welcome'), title = "Welcome")
 
 @app.route("/about")
 def about():
-	return render_template('about.html')
+	return render_template('about.html', title = 'About')
 
 @app.route("/home")
 @login_required
@@ -85,9 +87,11 @@ def Add():
 	if(Create(title,questions,is_req,dt,current_user.username)):
 		user = User.query.filter_by(username = current_user.username).first()
 		url = make_url(user,title)
-		return "Thank You for making a form! Url to fill this form is "+url
+		flash('Thank You for making a form! Click <a href="{}" target = "_blank">here</a> to fill the form.'.format(url), 'success')
 	else:
-		return "A form already has that name. Please create a form with another name."
+		flash('A form with the name <a href="{}" target="_blank">{}</a> alredy exists. Please create a form with a different name.'.format(url, title), 'danger')
+	
+	return redirect(url_for('home'))
 
 @app.route("/<url>", methods = ["GET","POST"])
 def An(url):
@@ -97,9 +101,14 @@ def An(url):
 		questions = Questions(li[1],user.username)
 		is_req = Is_Required(li[1],user.username)
 		data_type = Data_Type(li[1],user.username)
-		return render_template("form_layout.html",questions = questions, is_req = is_req, data_type = data_type, url=url)
+		return render_template("form_layout.html",questions = questions, is_req = is_req, data_type = data_type, url=url, form_name=li[1])
 	except:
-		return "Error 404 page not found"
+		if(url != 'favicon.ico'):
+			flash("Error 404 page not found ;-;", 'danger')
+			return redirect(url_for('welcome'))
+		# return "Error 404 page not found ;-;"
+		else:
+			return 'favicon.ico not found'
 
 @app.route("/answers", methods = ["POST"])
 def Ans():
@@ -112,9 +121,10 @@ def Ans():
 		answer = request.form.get("answer"+str(i))
 		answers.append(answer)
 	if(Answers(li[1],user.username,questions,answers)):
-		return "Thanks"
+		flash("Your responses have been saved. Thanks for using HForms :)")
 	else:
-		return "Please enter correct data in the form"
+		flash("Please enter correct data in the form")
+	return render_template(url_for('welcome'))
 
 @app.route("/download", methods = ['GET','POST'])
 @login_required
