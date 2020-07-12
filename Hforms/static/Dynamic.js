@@ -96,7 +96,6 @@ document.addEventListener('DOMContentLoaded',() => {
                 k++;
             }
         }
-        console.log(k);
         i = (parseInt(question_id[6]+question_id[7]+question_id[8])+k-1);
         return false;
 }
@@ -119,7 +118,7 @@ document.addEventListener('DOMContentLoaded',() => {
             eve.preventDefault();
             }
         }
-        for(let j = 0; j <= i; j++)
+        for(let j = 0; j < i; j++)
         {
             if(document.getElementById('data_type'+j.toString()).value === ''){
                 alert("Please select answer type for question "+(j+1).toString());

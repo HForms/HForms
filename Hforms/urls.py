@@ -8,6 +8,7 @@ def make_url(user,title):
 def get_url(url):
 	username = ''
 	title = ''
+	li = []
 	for c in url:
 		if(c == '_'):
 			break

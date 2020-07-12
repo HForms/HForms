@@ -1,24 +1,46 @@
 from flask import Flask
-import psycopg2
+import sqlite3
+import csv
+import os
+from cryptography.fernet import Fernet
+
+def database(username):
+	decrypt(username)
+	db = "DB/{}.db".format(username)
+	conn = sqlite3.connect(db, isolation_level=None)
+	return conn
+
+def encrypt(username):
+	filename = "DB/{}.db".format(username)
+	key = os.environ.get("KEY")
+	f = Fernet(key)
+	with open(filename,"rb") as file:
+		file_data = file.read()
+	encrypted_data = f.encrypt(file_data)
+	with open(filename, "wb") as file:
+		file.write(encrypted_data)
+
+def decrypt(username):
+	filename = "DB/{}.db".format(username)
+	key = load_key()
+	f = Fernet(key)
+	with open(filename, "rb") as file:
+		encrypted_data = file.read()
+	decrypted_data = f.decrypt(encrypted_data)
+	with open(filename, "wb") as file:
+		file.write(decrypted_data)
 
 def Create(title,questions,is_required,data_type,username):
 	i=0
 
-	try:
-		username = username.replace('"',"'")
-		DB_PATH = 'CREATE DATABASE "{}"'.format(username)
-		conn = psycopg2.connect(user = '_username_', password = '_password_', host = '127.0.0.1', port = '5432')	#replace _string_ with actual username/password
-		conn.autocommit = True
-		cur = conn.cursor()
-		cur.execute(DB_PATH)
-	except psycopg2.errors.DuplicateDatabase:
-		conn = psycopg2.connect(database = '{}'.format(username), user = '_username_', password = '_password_', host = '127.0.0.1', port = '5432')		#replace _string_ with actual username/password
-		conn.autocommit = True
-		cur = conn.cursor()
+	username = username.replace('"',"'")
+	conn = database(username)
+	cur = conn.cursor()
 
 	try:
 		title = title.replace('"',"'")
-		addColumn = 'CREATE TABLE "{}" (id SERIAL PRIMARY KEY NOT NULL);'.format(title)
+		addColumn = 'CREATE TABLE "{}" (id INTEGER PRIMARY KEY)'.format(title)
+
 		cur.execute(addColumn)
 		for ques in questions:
 			ques = ques.replace('"',"'")
@@ -35,39 +57,42 @@ def Create(title,questions,is_required,data_type,username):
 			i+=1
 			
 			cur.execute(addColumn)
-	except psycopg2.errors.DuplicateTable:
+	except sqlite3.OperationalError:
 		return 0
 	conn.close()
+	encrypt(username)
 	return 1
 
 def Questions(title,username):
-	conn = psycopg2.connect(database = '{}'.format(username), user = '_username_', password = '_password_', host = '127.0.0.1', port = '5432')		#replace _string_ with actual username/password
+	conn = database(username)
 	cur = conn.cursor()
 	cur.execute('SELECT * from "{}"'.format(title))
 	questions = next(zip(*cur.description))
 	conn.close()
+	encrypt(username)
 	return questions
 
 def Is_Required(title,username):
-	conn = psycopg2.connect(database = '{}'.format(username), user = '_username_', password = '_password_', host = '127.0.0.1', port = '5432')		#replace _string_ with actual username/password
+	conn = database(username)
 	cur = conn.cursor()
-	cur.execute('SELECT is_nullable FROM information_schema.columns WHERE table_name = %s',(title,))
-	is_req = cur.fetchall()
+	cur.execute('PRAGMA TABLE_INFO("{}")'.format(title))
+	is_req = [info[3] for info in cur.fetchall()]
 	conn.close()
+	encrypt(username)
 	return is_req
 
 def Data_Type(title,username):
-	conn = psycopg2.connect(database = '{}'.format(username), user = '_username_', password = '_password_', host = '127.0.0.1', port = '5432')		#replace _string_ with actual username/password
+	conn = database(username)
 	cur = conn.cursor()
-	cur.execute('SELECT data_type FROM information_schema.columns WHERE table_name = %s',(title,))
-	data_type = cur.fetchall()
+	cur.execute('PRAGMA TABLE_INFO("{}")'.format(title))
+	data_type = [info[2] for info in cur.fetchall()]
 	conn.close()
+	encrypt(username)
 	return data_type
 
 def Answers(title,username,questions,answers):
 	try:
-		conn = psycopg2.connect(database = '{}'.format(username), user = '_username_', password = '_password_', host = '127.0.0.1', port = '5432')		#replace _string_ with actual username/password
-		conn.autocommit = True
+		conn = database(username)
 		cur = conn.cursor()
 		questions = list(questions)
 		questions.pop(0)
@@ -77,22 +102,27 @@ def Answers(title,username,questions,answers):
 		addAnswer = """INSERT INTO "{}" {} VALUES {}""".format(title,questions,answers)
 		cur.execute(addAnswer)
 		conn.close()
-	except psycopg2.errors.InvalidTextRepresentation:
+	except:
 		return 0
+	encrypt(username)
 	return 1
 
 def Table(username):
-	conn = psycopg2.connect(database = '{}'.format(username), user = '_username_', password = '_password_', host = '127.0.0.1', port = '5432')		#replace _string_ with actual username/password
+	conn = database(username)
 	cur = conn.cursor()
-	cur.execute("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type = 'BASE TABLE'")
+	cur.execute("SELECT name FROM sqlite_master WHERE type='table'")
 	tables = cur.fetchall()
 	conn.close()
+	encrypt(username)
 	return tables
 
 def File(title,username):
-	conn = psycopg2.connect(database = '{}'.format(username), user = '_username_', password = '_password_', host = '127.0.0.1', port = '5432')		#replace _string_ with actual username/password
+	conn = database(username)
 	cur = conn.cursor()
-	exe = """COPY (SELECT * FROM "{}") TO STDOUT WITH CSV DELIMITER ';'""".format(title)
-	with open("Hforms/{}.csv".format(title), "w") as file:
-		cur.copy_expert(exe,file)
-	conn.close()
+	exe = 'Select * from "{}"'.format(title)
+	cur.execute(exe)
+	with open("Hforms/{}.csv".format(title),'w') as file:
+		writer = csv.writer(file,delimiter = '\t')
+		writer.writerow([row[0] for row in cur.description])
+		writer.writerows(cur)
+	encrypt(username)
