@@ -1,9 +1,10 @@
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, url_for, flash, redirect, request, send_file
 from Hforms import app, db, bcrypt
 from Hforms.forms import RegistrationForm, LoginForm
 from Hforms.dbModels import User
 from flask_login import login_user, current_user, logout_user, login_required
-from Hforms.dbHandler import Create
+from Hforms.dbHandler import Create, Questions, Answers, Is_Required, Data_Type, Table, File
+from Hforms.urls import make_url, get_url
 
 @app.route('/')
 def welcome():
@@ -65,21 +66,67 @@ def makeforms():
 @app.route("/make", methods = ["POST"])
 @login_required
 def Add():
-  questions = []
-  dt = []
-  is_req = []
-  i = 1
-  title = request.form.get("title")
-  question = request.form.get("question")
-  data_type = request.form.get("data_type")
-  is_required = request.form.get("is_req")
-  while(question):
-    questions.append(question)
-    dt.append(data_type)
-    is_req.append(is_required)
-    question = request.form.get("question"+str(i))
-    data_type = request.form.get("data_type"+str(i))
-    is_required = request.form.get("is_req"+str(i))
-    i += 1
-  Create(title,questions,is_req,dt,current_user.username)
-  return "Thank You!"
+	questions = []
+	dt = []
+	is_req = []
+	i = 1
+	title = request.form.get("title")
+	question = request.form.get("question")
+	data_type = request.form.get("data_type")
+	is_required = request.form.get("is_req")
+	while(question):
+		questions.append(question)
+		dt.append(data_type)
+		is_req.append(is_required)
+		question = request.form.get("question"+str(i))
+		data_type = request.form.get("data_type"+str(i))
+		is_required = request.form.get("is_req"+str(i))
+		i += 1
+	if(Create(title,questions,is_req,dt,current_user.username)):
+		user = User.query.filter_by(username = current_user.username).first()
+		url = make_url(user,title)
+		return "Thank You for making a form! Url to fill this form is "+url
+	else:
+		return "A form already has that name. Please create a form with another name."
+
+@app.route("/<url>", methods = ["GET","POST"])
+def An(url):
+	try:
+		li = get_url(url)
+		user = User.query.filter_by(username = li[0]).first()
+		questions = Questions(li[1],user.username)
+		is_req = Is_Required(li[1],user.username)
+		data_type = Data_Type(li[1],user.username)
+		return render_template("form_layout.html",questions = questions, is_req = is_req, data_type = data_type, url=url)
+	except:
+		return "Error 404 page not found"
+
+@app.route("/answers", methods = ["POST"])
+def Ans():
+	url = request.form.get("url")
+	li = get_url(url)
+	user = User.query.filter_by(username = li[0]).first()
+	questions = Questions(li[1],user.username)
+	answers = []
+	for i in range(1,len(questions)):
+		answer = request.form.get("answer"+str(i))
+		answers.append(answer)
+	if(Answers(li[1],user.username,questions,answers)):
+		return "Thanks"
+	else:
+		return "Please enter correct data in the form"
+
+@app.route("/download", methods = ['GET','POST'])
+@login_required
+def Tables():
+	user = User.query.filter_by(username = current_user.username).first()
+	table = Table(user.username)
+	return render_template('download.html', titles = table)
+
+@app.route("/csv", methods = ['POST'])
+@login_required
+def download():
+	table = request.form.get("option")
+	user = User.query.filter_by(username = current_user.username).first()
+	File(table, user.username)
+	return send_file('{}.csv'.format(table), mimetype='text/csv', attachment_filename='{}.csv'.format(table), as_attachment=True)
