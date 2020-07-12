@@ -98,16 +98,36 @@ h1 {
 	color: black;
 }
 
-.content {
+.content, .content_welcome{
 	margin-left: 5%;
 	margin-right: 5%;
 	padding: 10px;
+}
+
+.cards {
+	height: 215px;
 }
 
 .content p{
 	padding: 10px;
 	text-align: justify;
 	font-weight: bolder;
+}
+
+.content_welcome p{
+	text-align: center;
+}
+
+.intro p {
+	height: auto;
+	text-align: left;
+}
+
+.welcome_cards {
+	background-color: #ebebeb;
+	border-radius: 10px;
+	padding: 10px;
+	margin: 10px;
 }
 
 footer {
