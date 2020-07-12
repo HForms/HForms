@@ -5,7 +5,10 @@ import os
 from cryptography.fernet import Fernet
 
 def database(username):
-	decrypt(username)
+	try:
+		decrypt(username)
+	except:
+		pass
 	db = "DB/{}.db".format(username)
 	conn = sqlite3.connect(db, isolation_level=None)
 	return conn
@@ -22,7 +25,7 @@ def encrypt(username):
 
 def decrypt(username):
 	filename = "DB/{}.db".format(username)
-	key = load_key()
+	key = os.environ.get("KEY")
 	f = Fernet(key)
 	with open(filename, "rb") as file:
 		encrypted_data = file.read()
@@ -122,7 +125,7 @@ def File(title,username):
 	exe = 'Select * from "{}"'.format(title)
 	cur.execute(exe)
 	with open("Hforms/{}.csv".format(title),'w') as file:
-		writer = csv.writer(file,delimiter = '\t')
+		writer = csv.writer(file,delimiter = ',')
 		writer.writerow([row[0] for row in cur.description])
 		writer.writerows(cur)
 	encrypt(username)
