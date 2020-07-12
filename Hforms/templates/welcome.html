@@ -1,5 +1,146 @@
-{% extends "layout.html" %}
-{% block content %}
-	<h1>Welcome to Forms!</h1>
-	<p>The FOSS encrypted and trused Forms.</p>
-{% endblock content%}
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="Forms">
+
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='grid.css') }}">
+		<script src="{{ url_for('static', filename='script.js') }}" defer></script>
+
+		{% if title %}
+			<title>Forms - {{ title }}</title>
+		{% else %}
+			<title>Forms</title>
+		{% endif %}
+	</head>
+
+	<body>
+		<nav>
+			<div class="logo"><a href="/">HForms</a></div>
+
+			<a href="javascript:void(0)" class="toggle-button">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</a>
+
+			<div class="navbar-links">
+				<ul>
+					{% if current_user.is_authenticated %}
+						<li><a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('account') }}">Account</a></li>
+						<li><a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+					{% else %}
+						<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">FAQs</a></li>
+						<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Donate</a></li>
+						<li><a href="{{ url_for('about') }}">About</a></li>
+						<li><a href="{{ url_for('register') }}">Sign Up</a></li>
+						<li><a href="{{ url_for('login') }}">Login</a></li>
+					{% endif %}
+				</ul>
+			</div>
+
+		</nav>
+		<div class="intro">
+			<div class="content_welcome">
+				<h1>Welcome to HForms!</h1>
+				<p>
+
+					The FOSS encrypted and trused Forms.<br>
+					Planning to host an event, but is writing the registration details down in some book the best way to go about it?<br>
+					Maybe you own a business and want to know how your products / services were helpful to the people?<br>
+					With our HForms you can do all of these and guess what, it's encrypted !!
+				</p>
+
+				<p>
+					Click <a href="{{ url_for('register') }}">here</a> to get started!
+				</p>
+			</div>
+		</div>
+
+		<div class="content_welcome">
+
+			<div class="col-lg-6 col-md-12 col-sm-12 cards">
+				<div class="welcome_cards">
+					<h3>Open Source</h3>
+					<p>
+						Our product is <b>Free and Open Source</b>. It can be used on any device without having to install any software.
+					</p>
+				</div>
+			</div>
+			
+			<div class="col-lg-6 col-md-12 col-sm-12 cards">
+				<div class="welcome_cards">
+					<h3>Adless and No trackers</h3>
+					<p>
+						We have <b>zero tolerance</b> to Ads and trackers, we care about your privacy and your interests.
+					</p>
+				</div>
+			</div>
+			
+			<div class="col-lg-6 col-md-12 col-sm-12 cards">
+				<div class="welcome_cards">
+					<h3>Encryption</h3>
+					<p>
+						We use <b>AES-128 bit encryption</b> which is virtually impenetrable by brute force based on current computing power, making it the strongest encryption standard !! Say <i>goodbye</i> to all the the people trying to pry into your stuff.
+					</p>
+				</div>
+			</div>
+			
+			<div class="col-lg-6 col-md-12 col-sm-12 cards">
+				<div class="welcome_cards">
+					<h3>Trust</h3>
+					<p>
+						Transparency and trust are two important values that we bring to everything we do online. So if you want to create forms without any 3rd party service  <i>creepily stalking</i> what questions you frame or what answers you get , HForms is the Answer!
+					</p>
+				</div>
+			</div>
+			
+			<div class="col-lg-6 col-md-12 col-sm-12 cards">
+				<div class="welcome_cards">
+					<h3>Simple Design</h3>
+					<p>
+						Easy to use
+					</p>
+				</div>
+			</div>
+
+			<div class="col-lg-6 col-md-12 col-sm-12 cards">
+				<div class="welcome_cards">
+					<h3>100% Non-Commercial</h3>
+					<p>
+						We aren't a profit making organisation. Visit <a href="{{ url_for('about') }}" target="_blank">About us</a> for more info.
+					</p>
+				</div>
+			</div>
+		</div>
+		<footer>
+			
+			<p>
+				&copy;2020 HForms.
+				<br>
+				HForms is licensed under GPLv3
+			</p>
+
+			<ul>
+				<li class="heading">Organisation</li>
+				<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Donate</a></li>
+				<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Blog</a></li>
+				<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Terms & Privacy Policy</a></li>
+			</ul>
+
+			<ul>
+				<li class="heading">Social</li>
+				<li><a href="https://github.com/HForms/" title="Hforms">GitHub</a></li>
+				<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Twitter</a></li>
+				<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Instagram</a></li>
+			</ul>
+
+		</footer>
+	
+	</body>
+</html>
