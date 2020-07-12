@@ -35,7 +35,7 @@
 						<li><a class="nav-item nav-link" href="{{ url_for('account') }}">Account</a></li>
 						<li><a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a></li>
 					{% else %}
-						<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">FAQs</a></li>
+						<li><a href="{{ url_for('faqs') }}">FAQs</a></li>
 						<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Donate</a></li>
 						<li><a href="{{ url_for('about') }}">About</a></li>
 						<li><a href="{{ url_for('register') }}">Sign Up</a></li>

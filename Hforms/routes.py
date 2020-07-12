@@ -60,6 +60,10 @@ def home():
 def account():
 	return render_template('account.html', title = 'Account')
 
+@app.route("/faqs")
+def faqs():
+	return render_template('faqs.html', title = "FAQs")
+
 @app.route('/makeforms')
 @login_required
 def makeforms():
