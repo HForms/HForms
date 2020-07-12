@@ -44,7 +44,7 @@ def login():
 @app.route("/logout")
 def logout():
 	logout_user()
-	return redirect(url_for('welcome'), title = "Welcome")
+	return redirect(url_for('welcome'))
 
 @app.route("/about")
 def about():
@@ -87,9 +87,9 @@ def Add():
 	if(Create(title,questions,is_req,dt,current_user.username)):
 		user = User.query.filter_by(username = current_user.username).first()
 		url = make_url(user,title)
-		flash('Thank You for making a form! Click <a href="{}" target = "_blank">here</a> to fill the form.'.format(url), 'success')
+		flash('Thank You for making a form! Click <a href="{}/{}" target = "_blank">here</a> to fill the form.'.format('https://hforms.me', url), 'success')
 	else:
-		flash('A form with the name <a href="{}" target="_blank">{}</a> alredy exists. Please create a form with a different name.'.format(url, title), 'danger')
+		flash('A form with the name {} alredy exists. Please create a form with a different name.'.format(title), 'danger')
 	
 	return redirect(url_for('home'))
 
@@ -103,7 +103,12 @@ def An(url):
 		data_type = Data_Type(li[1],user.username)
 		return render_template("form_layout.html",questions = questions, is_req = is_req, data_type = data_type, url=url, form_name=li[1])
 	except:
-		return "Error 404 page not found"
+		if(url != 'favicon.ico'):
+			flash("Error 404 page not found ;-;", 'danger')
+			return redirect(url_for('welcome'))
+		# return "Error 404 page not found ;-;"
+		else:
+			return 'favicon.ico not found'
 
 @app.route("/answers", methods = ["POST"])
 def Ans():
@@ -119,7 +124,7 @@ def Ans():
 		flash("Your responses have been saved. Thanks for using HForms :)")
 	else:
 		flash("Please enter correct data in the form")
-	return render_template(url_for('welcome'))
+	return redirect(url_for('welcome'))
 
 @app.route("/download", methods = ['GET','POST'])
 @login_required
