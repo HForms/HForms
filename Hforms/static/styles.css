@@ -183,6 +183,10 @@ answers {
 	display: flex;
 }
 
+.question-form {
+	resize: none;
+}
+
 .answer_li {
 	list-style: none;
 	border: 1px solid black;

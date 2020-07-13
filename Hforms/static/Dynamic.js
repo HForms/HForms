@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded',() => {
     document.querySelector('#add').onclick = () => {
         let ul = document.querySelector('#questions');
         let list = document.createElement('li');
-        let question = document.createElement('input');
+        let question = document.createElement('textarea');
         let remove = document.createElement('input');
         let checkbx = document.createElement('input');
         let select = document.createElement('select');
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded',() => {
         question.name = 'question'+i.toString();
         question.id = 'question'+i.toString();
         question.placeholder = 'Enter the question';
-        question.className = 'form-control form-control-lg';
+        question.className = 'form-control form-control-lg question-form';
         question.style = 'margin-bottom: 7px;';
 
         remove.type = 'button';
