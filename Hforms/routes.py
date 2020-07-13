@@ -91,7 +91,7 @@ def Add():
 	if(Create(title,questions,is_req,dt,current_user.username)):
 		user = User.query.filter_by(username = current_user.username).first()
 		url = make_url(user,title)
-		flash('Thank You for making a form! Click <a href="{}/{}" target = "_blank">here</a> to fill the form.'.format('https://hforms.me', url), 'success')
+		flash('Thank You for making a form! Click <a href="{}{}" target = "_blank">here</a> to fill the form.'.format(request.host_url, url), 'success')
 	else:
 		flash('A form with the name {} alredy exists. Please create a form with a different name.'.format(title), 'danger')
 	
