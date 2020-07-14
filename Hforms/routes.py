@@ -118,12 +118,7 @@ def An(url):
 		data_type = Data_Type(li[1],user.username)
 		return render_template("form_layout.html",questions = questions, is_req = is_req, data_type = data_type, url=url, form_name=li[1])
 	except:
-		if(url != 'favicon.ico'):
-			flash("Error 404 page not found ;-;", 'danger')
-			return redirect(url_for('welcome'))
-		# return "Error 404 page not found ;-;"
-		else:
-			return 'favicon.ico not found'
+		return render_template("error.html", title = "Page not found")
 
 @app.route("/answers", methods = ["POST"])
 def Ans():
