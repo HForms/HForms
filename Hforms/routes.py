@@ -63,6 +63,9 @@ def account():
 @app.route("/faqs")
 def faqs():
 	return render_template('faqs.html', title = "FAQs")
+@app.route("/donate")
+def donate():
+	return render_template('donate.html', title = 'Donate')
 
 @app.route('/makeforms')
 @login_required
