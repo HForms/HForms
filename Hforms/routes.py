@@ -71,6 +71,10 @@ def donate():
 def terms():
 	return render_template('terms.html', title = 'terms')
 
+@app.route("/privacy-policy")
+def privacy():
+	return render_template('privacy.html', title = 'Privacy Policy')
+
 @app.route('/makeforms')
 @login_required
 def makeforms():
