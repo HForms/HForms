@@ -6,10 +6,10 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
-from os.environ import get
+from os import environ
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = get("CSRF_KEY")
+app.config['SECRET_KEY'] = environ.get("CSRF_KEY")
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
 db = SQLAlchemy(app)
