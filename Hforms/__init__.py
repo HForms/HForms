@@ -1,15 +1,15 @@
 """
-	Author: Srikar
+	Initialisation of app
 """
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
-
+from os.environ import get
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'cfef3ad9918b30369b7999ddd28a55d6'
+app.config['SECRET_KEY'] = get("CSRF_KEY")
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
 db = SQLAlchemy(app)
