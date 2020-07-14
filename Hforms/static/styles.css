@@ -108,7 +108,7 @@ h1 {
 	height: 215px;
 }
 
-.content p{
+.content p :not(.no-bold){
 	padding: 10px;
 	text-align: justify;
 	font-weight: bolder;

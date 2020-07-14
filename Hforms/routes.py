@@ -67,6 +67,10 @@ def faqs():
 def donate():
 	return render_template('donate.html', title = 'Donate')
 
+@app.route("/terms-and-conditions")
+def terms():
+	return render_template('terms.html', title = 'terms')
+
 @app.route('/makeforms')
 @login_required
 def makeforms():
