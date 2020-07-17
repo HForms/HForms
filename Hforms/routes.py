@@ -151,3 +151,19 @@ def download():
 	user = User.query.filter_by(username = current_user.username).first()
 	File(table, user.username)
 	return send_file('{}.csv'.format(table), mimetype='text/csv', attachment_filename='{}.csv'.format(table), as_attachment=True)
+
+@app.route("/getlink", methods = ['GET', 'POST'])
+@login_required
+def get_titles2():
+	user = User.query.filter_by(username = current_user.username).first()
+	table = Table(user.username)
+	return render_template('geturl.html', titles = table)
+
+@app.route("/get_url", methods = ['POST'])
+@login_required
+def get_url():
+	title = request.form.get("option")
+	user = User.query.filter_by(username = current_user.username).first()
+	url = make_url(user,title)
+	flash('Link for filling the form  <a href="{}{}" target = "_blank">{}{}</a>'.format(request.host_url, url,request.host_url, url), 'success')
+	return redirect(url_for('home'))

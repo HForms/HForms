@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+	<script src="{{ url_for('static',filename='download.js') }}"></script>
+	<form action = " {{ url_for('get_url') }} " method = "POST">
+		<select name = "option" id = "options">
+			<option value = "" disabled selected>Select the form whose url you want</option>
+		</select>
+		<input type="submit" id = "submit" value="Submit">
+	</form>
+	<script>add_options({{ titles | tojson }})</script>
+{% endblock content%}
