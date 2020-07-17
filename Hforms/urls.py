@@ -5,7 +5,7 @@ def make_url(user,title):
 	url += title
 	return url
 
-def get_url(url):
+def get_details(url):
 	username = ''
 	title = ''
 	li = []

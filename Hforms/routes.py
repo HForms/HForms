@@ -4,7 +4,7 @@ from Hforms.forms import RegistrationForm, LoginForm
 from Hforms.dbModels import User
 from flask_login import login_user, current_user, logout_user, login_required
 from Hforms.dbHandler import Create, Questions, Answers, Is_Required, Data_Type, Table, File
-from Hforms.urls import make_url, get_url
+from Hforms.urls import make_url, get_details
 
 @app.route('/')
 def welcome():
@@ -63,6 +63,7 @@ def account():
 @app.route("/faqs")
 def faqs():
 	return render_template('faqs.html', title = "FAQs")
+
 @app.route("/donate")
 def donate():
 	return render_template('donate.html', title = 'Donate')
@@ -111,7 +112,7 @@ def Add():
 @app.route("/<url>", methods = ["GET","POST"])
 def An(url):
 	try:
-		li = get_url(url)
+		li = get_details(url)
 		user = User.query.filter_by(username = li[0]).first()
 		questions = Questions(li[1],user.username)
 		is_req = Is_Required(li[1],user.username)
@@ -123,7 +124,7 @@ def An(url):
 @app.route("/answers", methods = ["POST"])
 def Ans():
 	url = request.form.get("url")
-	li = get_url(url)
+	li = get_details(url)
 	user = User.query.filter_by(username = li[0]).first()
 	questions = Questions(li[1],user.username)
 	answers = []
@@ -138,7 +139,7 @@ def Ans():
 
 @app.route("/download", methods = ['GET','POST'])
 @login_required
-def Tables():
+def get_titles():
 	user = User.query.filter_by(username = current_user.username).first()
 	table = Table(user.username)
 	return render_template('download.html', titles = table)
