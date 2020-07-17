@@ -10,7 +10,7 @@ from os import environ
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = environ.get("CSRF_KEY")
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)

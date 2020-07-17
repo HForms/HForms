@@ -42,7 +42,7 @@ def Create(title,questions,is_required,data_type,username):
 
 	try:
 		title = title.replace('"',"'")
-		addColumn = 'CREATE TABLE "{}" (id INTEGER PRIMARY KEY)'.format(title)
+		addColumn = 'CREATE TABLE "{}" ("Response Number" INTEGER PRIMARY KEY)'.format(title)
 
 		cur.execute(addColumn)
 		for ques in questions:
