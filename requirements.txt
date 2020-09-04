@@ -5,3 +5,4 @@ flask-sqlalchemy
 flask-bcrypt
 flask-login
 cryptography
+re
