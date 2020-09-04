@@ -10,7 +10,7 @@ class RegistrationForm(FlaskForm):
 	cnf_password = PasswordField('Confirm Password', validators = [DataRequired(), EqualTo('password')])
 	submit = SubmitField('Sign Up!')
 	def validate_username(self,username):
-		regex=^(?=.{8,20}$)(?![_. ])(?!.*[_.]{2})(?!.*[ ])[a-zA-Z0-9._]+(?<![_. ])$
+		regex="^(?=.{8,20}$)(?![_. ])(?!.*[_.]{2})(?!.*[ ])[a-zA-Z0-9._]+(?<![_. ])$"
 		user=re.match(regex,username)
 		if user:
 			raise ValidationError('Sorry your username contains invalid charecters for username.')
