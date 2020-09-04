@@ -2,13 +2,18 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
 from Hforms.dbModels import User
+import re
 
 class RegistrationForm(FlaskForm):
-	username = StringField('Username', validators = [DataRequired(), Length(min = 2, max = 20)])
+	username = StringField('Username', validators = [DataRequired()])
 	password = PasswordField('Password', validators = [DataRequired()])
 	cnf_password = PasswordField('Confirm Password', validators = [DataRequired(), EqualTo('password')])
 	submit = SubmitField('Sign Up!')
-
+	def validate_username(self,username):
+		regex=^(?=.{8,20}$)(?![_. ])(?!.*[_.]{2})(?!.*[ ])[a-zA-Z0-9._]+(?<![_. ])$
+		user=re.match(regex,username)
+		if user:
+			raise ValidationError('Sorry your username contains invalid charecters for username.')
 	def validate_username(self, username):
 
 		user = User.query.filter_by(username = username.data).first()
